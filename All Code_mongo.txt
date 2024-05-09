@@ -1,0 +1,149 @@
+https://www.statology.org/mongodb-group-by-sum/
+
+show dbs;
+show collections;
+db.createcollection("democollection")
+Check Collection:   show collections. or db.getCollectionNames()
+
+Projection: 
+0-hide and 1 -show
+Ex: db.student.find({name:"Sandeep"},{name:1})
+Ex: db.student.find({name:"Sandeep"},{name:1,Age:0,mobile:1})
+
+============================================================================
+db.COLLECTION_NAME.find().pretty()
+db.COLLECTIONNAME.findOne()
+db.srimani.find({"by":"Subrata Srimani"}).pretty()
+db.srimani.find({"by":"susmita"}).pretty()
+db.srimani.find({"likes":{$lt:50}}).pretty()
+db.srimani.find({"likes":{$lte:50}}).pretty()
+db.srimani.find({"likes":{$gt:50}}).pretty()
+db.srimani.find({"name":{$in:["Raj", "Ram", "Raghu"]}}).pretty()
+db.stuinfo.find({"name":{$in:["Student1", "Ram", "Student2"]}}).pretty()=> In the array
+db.stuinfo.find({"name":{$nin:["Student1", "Raghav"]}}).pretty()=> Not in the array
+db.stuinfo.find({$and:[{"name":"Student1"},{"duration": "3yrs"}]}).pretty()=> AND Opearator
+db.stuinfo.find({$or:[{"name":"Student1"},{"duration": "3yrs"}]}).pretty()=> OR Opearator
+db.stuinfo.find({"marks": {$gt:10}, $or: [{"name":"Student1"},{"duration": "3yrs"}]}).pretty()
+
+db.student.renameCollection("StName")
+db.COLLECTION_NAME.drop() ----Drop Collection
+The dropDatabase() Method-  db.dropDatabase()
+-----Pattern Matching ----->
+db.restaurants.find( { borough: /^Bro/ } )    
+db.matm.find({"State": /^Mah/})
+db.matm.find({"State": /Mah/})
+db.Class.find({emp_name:{$regex:'A.*'}}).pretty()
+
+-------Projection: Desired Colulmns: ----> 
+db.matm.find({},{"TerminalType":1,"SerialNumber":1,"Mdn":1})
+db.emp1.find({"CITY":"ODISHA"},{"ID":0,"EmailID":0})
+db.emp1.find({},{"_id":0,"Department":0})
+
+var myemp = [  {  empid:1, empname:'admin'},{empid:2, empname:'manager'},{empid:3, empname:"QA"  }  ]
+db.newemp.insert(myemp);
+
+db.newemp.update( { empname:"admin" } , {$set:{"empname" : "adminnew"} } )
+
+
+db.newemp.update({empname:"manager"},{$set:{"empname" : "new_manager"}})
+db.newemp.remove({"empname":"adminnew"}) --DELETE records
+db.newemp.find({"name":"admin"})
+db.newemp.find({"empname":"admin"})
+db.newemp.find().limit(1);
+db.newemp.find().sort({empname:-1});
+db.student.find({"address":{"city":"Bangalore",})
+db.newemp.find({empid:{$gt:1}})
+db.newemp.find({empid:{$gt:5}}) gt for greater than
+db.newemp.find({empid:{$lt:5}}) lt for less than
+
+--Add / Delete Columns---
+>db.demo.updateMany({},{$set:{"DOJ": new date()}})  --Add Columns
+>db.demo.updateMany({},{$unset:{"DOJ":""}})  --Delete Columns
+
+----Delete Record-----
+Delete multip[le record>> db.emp1.deleteMany({Department:"IT"}) - All record will delete (Department=IT)
+Delete Single record>>    db.emp1.deleteMany({ID:"1"})
+
+---Min and Max--
+db.OxiEmp.aggregate([{"$group":{"_id":null,"maximum_Salary":{"$max":"$Salary"}}}])
+
+db.emp.insert({
+ _id:2,
+ name:"Sandeep",
+ age:25,
+ salary:25000,
+city:"kolkata
+ 
+}
+)
+
+db.Class.count({age:{$gt:"30"}})
+db.Class.find({age:{$gt:"30"}}).sort({age:1})
+db.Class.find({age:{$lt:"30"}}).sort({age:1})
+
+------Distinct----
+db.Class.distinct("salary")
+
+----Increment------
+Befor increment Salary-5000
+"EmpID" : 11, "Name" : "Deepak", "age" : 24, "salary" : 5000 }
+
+db.Incre.update({EmpID:11},{$inc:{salary:5000}})
+After increment salary
+"EmpID" : 11, "Name" : "Deepak", "age" : 24, "salary" : 10000 }
+
+db.Incre.update({EmpID:11},{$inc:{salary:500,"Bonus":500}})
+"EmpID" : 11, "Name" : "Deepak", "age" : 24, "salary" : 10500, "Bonus" : 500 }
+--------------------------------------------------------
+MongoDB findOneAndUpdate() method
+> db.empDetails.findOneAndUpdate(
+	{First_Name: 'Radhika'},
+	{ $set: { Age: '30',e_mail: 'radhika_newemail@gmail.com'}}
+)
+MongoDB updateOne() method:
+> db.empDetails.updateOne({First_Name: 'Radhika'},
+	{ $set: { Age: '30',e_mail: 'radhika_newemail@gmail.com'}})
+
+MongoDB updateMany() method
+>db.COLLECTION_NAME.update(<filter>, <update>)
+> db.empDetails.updateMany(
+	{Age:{ $gt: "25" }},
+	{ $set: { Age: '00'}}
+)
+db.newemp.update( { empname:"admin" } , {$set:{"empname" : "adminnew"} } )
+
+
+db.voter.insert(
+{
+ "voter_Details" : {
+                "name" : "Sunil singh",
+                "Age" : 28,
+                "fatherName" : "Mohan lal",
+                "Mothername" : "Ragini"
+                  },
+        "contact" : {
+                "mobile" : 7827166225,
+                "email" : "sandeepkumarv7@gmail.com"
+        	    },
+        "Adress" : {
+                "village" : "Thanipur",
+                "post" : "gopiganj",
+                "district" : "Bhadohi",
+                "state" : "UP",
+                "pin" : 221303
+       		  }
+    		}
+	   )
+------------------------------------------------------------------------
+******************************************************************************
+db.Class.count({age:{$gt:"30"}})
+db.Class.find({age:{$gt:"30"}}).sort({age:1})
+db.Class.find({age:{$lt:"30"}}).sort({age:1})
+
+------Distinct----
+db.Class.distinct("salary")
+
+
+
+
+
