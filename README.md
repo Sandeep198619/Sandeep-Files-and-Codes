@@ -1,1 +1,1 @@
-This is the All MongoDB Query
+This is the All  Query
